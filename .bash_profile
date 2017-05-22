@@ -7,7 +7,7 @@ alias vi=nvim
 source ~/.config/git/git-completion.bash
 
 export PATH="$HOME/.anyenv/bin:$PATH"
-echo 'eval "$(anyenv init -)"'
+eval "$(anyenv init -)"
 
 if [ -e ~/.bash_profile.local ]; then
   source ~/.bash_profile.local
