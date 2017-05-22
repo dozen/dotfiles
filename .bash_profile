@@ -6,4 +6,6 @@ alias vi=nvim
 
 source ~/.config/git/git-completion.bash
 
-source ~/.bash_profile.local
+if [ -e ~/.bash_profile.local ]; then
+  source ~/.bash_profile.local
+fi
