@@ -4,19 +4,20 @@ DOTFILES=$(cd $(dirname $0); pwd)
 
 recursive() {
     if [ ! -e ${HOME}/${1} ]; then
-        mkdir ${1}
+        mkdir ${HOME}/${1}
     fi
 
-    for dotfile in ${1}/?*; do
-        if [ -d ${dotfile} ]; then
-            recursive ${dotfile}
+    for DOTFILE in ${1}/?*; do
+        if [ -d ${DOTFILE} ]; then
+            recursive ${DOTFILE}
         else
-            linker ${dotfile}
+            linker ${DOTFILE}
         fi
     done
 }
 
 linker() {
+    echo ${1}
     ln -sf ${DOTFILES}/${1} $HOME/${1}
 }
 
