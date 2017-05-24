@@ -3,15 +3,16 @@
 DOTFILES=$(cd $(dirname $0); pwd)
 
 recursive() {
-    if [ ! -e ${HOME}/${1} ]; then
-        mkdir ${HOME}/${1}
-    fi
-
-    for DOTFILE in ${1}/?*; do
-        if [ -d ${DOTFILE} ]; then
-            recursive ${DOTFILE}
-        else
-            linker ${DOTFILE}
+    for DOTFILE in ${1}/.?* ${1}/?*; do
+        if [ ${DOTFILE} != "${1}/.." ]; then
+            if [ -d ${HOME}/${DOTFILE} ]; then
+                if [ ! -e ${HOME}/${DOTFILE} ]; then
+                    echo mkdir ${HOME}/${$DOTFILE}
+                fi
+                recursive ${DOTFILE}
+            else
+                linker ${DOTFILE}
+            fi
         fi
     done
 }
