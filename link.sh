@@ -2,7 +2,30 @@
 
 DOTFILES=$(cd $(dirname $0); pwd)
 
-ln -sf ${DOTFILES}/.bash_profile ${HOME}/
-ln -sf ${DOTFILES}/.config/nvim/init.vim ${HOME}/.config/nvim/
-ln -sf ${DOTFILES}/.config/nvim/indent ${HOME}/.config/nvim/
-ln -sf ${DOTFILES}/.config/git/git-completion.bash ${HOME}/.config/git/
+recursive() {
+    if [ ! -e ${HOME}/${1} ]; then
+        mkdir ${1}
+    fi
+
+    for dotfile in ${1}/?*; do
+        if [ -d ${dotfile} ]; then
+            recursive ${dotfile}
+        else
+            linker ${dotfile}
+        fi
+    done
+}
+
+linker() {
+    ln -sf ${DOTFILES}/${1} $HOME/${1}
+}
+
+for DOTFILE in .?*; do
+    if [ ${DOTFILE} != ".." ] && [ ${DOTFILE} != ".git" ]; then
+        if [ -d ${DOTFILE} ]; then
+            recursive ${DOTFILE}
+        else
+            linker ${DOTFILE}
+        fi
+    fi
+done
